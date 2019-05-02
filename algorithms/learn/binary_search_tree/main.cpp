@@ -27,6 +27,10 @@ private:
         TreeNode *tree;
 
 public:
+    BinarySearchTree():tree(nullptr) {}
+    TreeNode* get_root() {
+        return tree;
+    }
     // search data 
     TreeNode* find(int data) {
         TreeNode *p = tree;
@@ -64,6 +68,10 @@ public:
         }
     }
 
+    // consider three situation
+    // leaf node, set parent node left or right link, child set nullptr
+    // node has a left node or right node , set child = left node or  right node, then  parent node set link
+    // node has left node and right node, find the min node from right, then  exchang data, set the right delete node
     void deleteNode(int data) {
         TreeNode *p = tree;
         TreeNode *pp;
@@ -97,9 +105,9 @@ public:
         }
 
         TreeNode *child = nullptr;
-        if (!p->left) {
+        if (p->left) {
             child = p->left;
-        } else if (!p->right) {
+        } else if (p->right) {
             child = p->right;
         } 
         
@@ -117,6 +125,46 @@ public:
 
     }
 
+
+    void inOrder(TreeNode* root) {
+      if (root == nullptr) return;
+      inOrder(root->left);
+      std::cout << root->data << std::endl;    
+      inOrder(root->right);
+    }
+
+    int Min() {
+        TreeNode *p = tree;
+        while(p && p->left) {
+            p = p -> left;
+        }
+
+        return p->data;
+    }
+    void DeleteMin() {
+        if (!tree) {
+            return;
+        }
+        TreeNode *p = tree;    
+        TreeNode *pp = nullptr;
+        while(p && p->left) {
+            pp = p;
+            p = p->left;
+        } 
+
+        TreeNode *child = nullptr;
+        if (p->right) {
+            child = p->right;
+        }
+        if (!pp) {
+            tree = child;
+        } else {
+            pp->left = child;
+        }
+
+        delete p;
+
+    }
     // destruct func
     ~BinarySearchTree() {
 
@@ -124,6 +172,18 @@ public:
 };
 
 int main() {
+
+    BinarySearchTree tree;
+    tree.insert(7);
+    tree.insert(3);
+    tree.insert(1);
+    tree.insert(2);
+    tree.insert(15);
+    tree.insert(9);
+    tree.insert(20);
+
+    tree.DeleteMin();
+    tree.inOrder(tree.get_root());
 
     return 0;
 }
