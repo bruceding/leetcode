@@ -12,6 +12,7 @@ using std::vector;
   };
 class Solution {
 public:
+    // using interally for inorder
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ret;        
         stack<TreeNode*> stack;
