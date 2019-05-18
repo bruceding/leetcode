@@ -89,6 +89,15 @@ public:
       std::cout << root->data << "\t" <<  root->color << std::endl;    
       inOrder(root->right);
     }
+    int Min() {
+        TreeNode *p = Min(root);
+        return p->data;
+    }
+
+    TreeNode *Min(TreeNode * node) {
+        if (node->left == nullptr) return node;
+        return Min(node->left);
+    }
 
     // destruct func
     ~RedBlackBST() {
@@ -109,6 +118,7 @@ int main() {
 
     tree.inOrder(tree.get_root());
 
+    std::cout << tree.Min() << std::endl;
     return 0;
 }
 
