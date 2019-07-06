@@ -26,6 +26,9 @@ public:
            << "}";
         return ss.str();
     }
+    int data() const {
+        return data_;
+    }
 private:
     void init() {
         for (int i = 0; i < MAX_LEVEL; i++) {
@@ -40,6 +43,7 @@ class SkipList {
 public:
     SkipList() {
         head_ = new Node();
+        level_count_ = 0;
     }
     void insert(int value) {
         int level = randomLevel();
@@ -62,6 +66,39 @@ public:
         }
         if (level_count_ < level) {
             level_count_ = level;
+        }
+    }
+    Node* find(int value) {
+        Node* p = head_;
+
+        std::cout << level_count_ << std::endl;
+        for (int i = level_count_-1; i>=0; i--) {
+            while(p->forwards_[i] != nullptr && p->forwards_[i]->data_ < value) {
+                p = p->forwards_[i];
+            }
+        }
+
+        if (p->forwards_[0] != nullptr && p->forwards_[0]->data_ == value) {
+            std::cout << "here" << std::endl;
+            return p->forwards_[0];
+        }
+        return nullptr;
+    }
+    void del(int value) {
+        Node* p = head_;
+        Node* tmp = nullptr ;
+        for (int i = level_count_-1; i>=0; i--) {
+           while(p->forwards_[i] != nullptr && p->forwards_[i]->data_ < value) {
+                p = p->forwards_[i];
+           } 
+
+           if (p->forwards_[i] != nullptr && p->forwards_[i]->data_ == value) {
+               tmp = p->forwards_[i];
+               p->forwards_[i] = p->forwards_[i]->forwards_[i];
+           }
+        } 
+        if (tmp) {
+            delete tmp;
         }
     }
     void printAll() {
