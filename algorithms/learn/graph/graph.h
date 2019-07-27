@@ -28,15 +28,19 @@ public:
     }
     // 广度优先搜索
     void Bfs(int s, int t);
+    // 深度优先搜索
+    void Dfs(int s, int t);
     void print(int pre[], int s, int t) {
-        if (pre[s] != -1 && s != t) {
+        if (pre[t] != -1 && s != t) {
             print(pre, s, pre[t]);
         }
         std::cout << t << " " ;
     }
 private:
+    void recurDfs(int s, int t, bool visited[], int pre[]); 
     int v_ ; // 顶点个数
     std::list<int>** adj_;
+    bool found; // use for dfs search
 };
 void Graph::Bfs(int s, int t) {
     if (s == t)  return;
@@ -66,6 +70,38 @@ void Graph::Bfs(int s, int t) {
             }
             visited[q] = true;
             queue.push_back(q);
+        }
+    }
+}
+void Graph::Dfs(int s, int t) {
+    found = false;
+
+    bool visited[v_];
+    int pre[v_];
+
+    for (int i = 0; i < v_; i++) {
+        pre[i] = -1;
+        visited[i] = false;
+    }
+
+    recurDfs(s, t, visited, pre);
+    print(pre, s, t);
+}
+void Graph::recurDfs(int s, int t, bool visited[], int pre[]) {
+
+    if(found == true) {
+        return;
+    }
+
+    if (s == t) {
+        found = true;
+        return;
+    }
+    for (auto q : *(adj_[s])) {
+        if (!visited[q]) {
+            visited[q] = true;
+            pre[q] = s;
+            recurDfs(q, t, visited, pre);
         }
     }
 }

@@ -11,6 +11,9 @@ int main() {
     graph.AddEdge(5, 7);
 
 //    graph.Print();
+    std::cout << "bfs search" << std::endl;
     graph.Bfs(0, 7);
+    std::cout << "\ndfs search" << std::endl;
+    graph.Dfs(0, 7);
     return 0;
 }
