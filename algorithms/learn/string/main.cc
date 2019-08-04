@@ -3,18 +3,28 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
 using namespace std;
 int main() {
 
-    std::string pat = "263";
-    RabinKarp rk(pat);
-    BoyerMoore bm(pat);
+    std::map<string, string> maps {
+        {"263", "3.1415926345"},
+        {"abbcabc", "abcacabcbcbacabc"},
+        {"cbacabc", "abcacabcbcbacabc"}
+    };
+
+    for (auto m : maps) {
+        RabinKarp rk(m.first);
+        BoyerMoore bm(m.first);
+
+        auto ret1 = rk.search(m.second);
+        auto ret2 = bm.search(m.second);
+
+        std::cout << ret1 << "\t" << ret2  << std::endl;
+    }
 
 
-    auto ret1 = rk.search("3.1415926345");
-    auto ret2 = bm.search("3.1415926345");
 
-    std::cout << ret1 << "\t" << ret2  << std::endl;
     return 0;
 }
