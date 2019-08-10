@@ -1,5 +1,6 @@
 #include "rabin_karp.h"
 #include "boyer_moore.h"
+#include "kmp.h"
 
 #include <iostream>
 #include <string>
@@ -17,11 +18,13 @@ int main() {
     for (auto m : maps) {
         RabinKarp rk(m.first);
         BoyerMoore bm(m.first);
+        KMP kmp(m.first);
 
         auto ret1 = rk.search(m.second);
         auto ret2 = bm.search(m.second);
+        auto ret3 = kmp.search(m.second);
 
-        std::cout << ret1 << "\t" << ret2  << std::endl;
+        std::cout << ret1 << "\t" << ret2  << "\t" << ret3 << std::endl;
     }
 
 

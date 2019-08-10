@@ -9,26 +9,32 @@ class BoyerMoore {
 public:
     BoyerMoore(const std::string& pat):pattern_(pat) {
         pattern_len_ = pat.length();
-        right_ = new int[pattern_len_];
         suffix_ = new int[pattern_len_];
         prefix_ = new bool[pattern_len_];
 
         int R = 256; // 字符范围大小
+        right_ = new int[R];
 
         for (int i = 0; i < R; i++) {
             right_[i] = -1;
-            suffix_[i] = -1;
-            prefix_[i] = false;
         }
 
         for (int i = 0; i < pattern_len_; i++) {
             right_[(int)pattern_[i]] = i;
+            suffix_[i] = -1;
+            prefix_[i] = false;
         }
         generateGS();
     }
     ~BoyerMoore() {
         if (right_ != nullptr) {
             delete  right_;
+        }
+        if (suffix_ != nullptr) {
+            delete suffix_;
+        }
+        if (prefix_ != nullptr) {
+            delete prefix_;
         }
     }
     int search(const std::string& str);
