@@ -16,6 +16,7 @@ public:
     Trie() {
         root = new TrieNode('/');
     }
+    // 这里可以使用深度搜索实现
     bool insert(const std::string& word) {
        int len = word.size(); 
 
